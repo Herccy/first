@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>customer_home</title>
+	<style>
+		.logo{
+			float:right;
+			width:100px;
+			height:30px;
+		}
+		form{
+			width:500px;
+			heitht:80px;
+			margin:auto;
+			position:absolute;
+			top:0;
+			left:0;
+			right:0;
+			opacity:0.9;
+			background-color:#ffffff;
+			padding:5% 3%;
+			text-align:center;
+			font-size:15px;
+		}
+		input:hover{
+			background-color:#87CEEB;
+			color:#ffffff;
+		}
+	</style>
+	
+</head>
+<body>
+	<div>
+		<img src="logo.png" class="logo"/>
+
+		编号：<input type="text" value="" id="pno_query"/>
+		<input type="button" value="查询" id="btn_2" onclick="query()"/>
+		<table id="queryResult">
+			<tr>
+				<td>编号</td>
+				<td>姓名</td>
+				<td>性别</td>
+				<td>年龄</td>
+				<td>身高</td>
+				<td>体重</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<form action="csearch.html" method="post">
+			<input type="text" name="csearch"/>
+			<input type="submit" value="搜索"/>
+			<input type="reset" value="取消"/>
+		</form>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>try</title>
+</head>
+<body>
+    编号：<input type="text" value="" id="number_query"/>
+    <input type="button" value="查询" id="button" onclick="query()"/>
+    <table id="queryResult">
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+<script type="text/javascript">
+    function query() {
+        var number = $("#number_query").val();
+        var str = ["编号","姓名"];
+        $.ajax({
+            type : "post",
+            url : "FirstQuery",
+            data : {
+                "number": number
+            },
+            cache : true,
+            async : true,
+            success: function (data ,textStatus, jqXHR){
+                var j = 0;
+                var x = 1;
+                for(var p in data){//遍历json对象的每个key/value对,p为key
+                    console.log(data[p]);
+                    if(j == 2) {
+                        j = 0;
+                        x++;
+                    }
+                    $("#queryResult tr:eq("+x+") td:eq("+j+")").html(data[p]);
+                    console.log(data[p]);
+                    j++;
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert(typeof(errorThrown));
+            }
+        });
+    }
+</script>
+</html>

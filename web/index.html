@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#div1").toggle(100);
+            });
+            $("#btn2").click(function(){
+                $("#div2").toggle(100);
+            });
+            $("#btn3").click(function(){
+                $("#div3").toggle(100);
+            });
+
+        });
+    </script>
+
+    <style>
+        body { height: 100%; padding: 0; margin: 0; }
+        .center {
+            height: 100%;
+            padding: 10px;
+            box-sizing: border-box ;
+            text-align: center;
+        }
+        button{
+            width:200px;
+            height:50px;
+            background: #48D1CC;
+        }
+        button:hover{
+            background: lightgreen;
+            color:lavenderblush;
+        }
+        #div4{
+            text-align: center;
+
+        }
+        #div4 table{
+            width: 100%;
+            border: #48D1CC;
+            border-inline-width: medium;
+            cellpadding:10;
+
+        }
+        .A {
+            width: 30%;
+            height:400px;
+            float: left;
+        }
+        .B {
+            width:70%;
+            height:400px;
+            float: right;
+        }
+        .C{
+            width:100%;
+            height: 100px;
+            background: lavender;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="center">
+    <div class="C">
+        hello,xxx;
+        <a href="customer.html">客户</a>
+        <a href="clogin.html">退出登录</a>
+    </div>
+    <div class="A" >
+        <button id="btn1">删除订单</button>
+        <div id="div1" style="display: none">
+            编号：<input type="text" value="" id="cno_del"/>
+            <input type="button" value="删除" id="btn_3" onclick="del()"/>
+        </div>
+        <br/>
+        <button id="btn2">新增订单</button>
+        <div id="div2" style="display: none">
+            订单：<input type="text" value="" id="cno"/><br>
+            客户：<input type="text" value="" id="pno"/><br>
+            类型：<input type="text" value="" id="costtype"/><br>
+            时间：<input type="text" value="" id="costtime"/> <br/>
+            价格：<input type="text" value="" id="costmoney"/><br>
+            名字：<input type="text" value="" id="name"/><br>
+            <input type="button" value="插入" id="btn_1" onclick="submit()"/>
+        </div>
+        <br/>
+        <button id="btn3">更新订单</button>
+        <div id="div3" style="display: none">
+            订单：<input type="text" value="" id="cno_up"/><br>
+            客户：<input type="text" value="" id="pno_up"/><br>
+            类型：<input type="text" value="" id="costtype_up"/><br>
+            时间：<input type="text" value="" id="costtime_up"/> <br/>
+            价格：<input type="text" value="" id="costmoney_up"/><br>
+            名字：<input type="text" value="" id="name_up"/><br>
+            <input type="button" value="更新" id="btn_4" onclick="update()"/>
+        </div>
+    </div>
+    <div class="B">
+        <div id="div4">
+            <br/>
+            <br/>
+            订单编号：<input type="text" value="" id="cno_query"/>
+            <input type="button" value="查询" id="btn_2" onclick="query()"/>
+            <table id="queryResult">
+                <tr>
+                    <td>订单</td>
+                    <td>客户</td>
+                    <td>类型</td>
+                    <td>时间</td>
+                    <td>价格</td>
+                    <td>名字</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+
+<script type="text/javascript">
+    /*
+        var x = $("#queryResult").html();
+
+        for(var i=0; i < 20 ; i++) {
+            x += '<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+        }
+        $("#queryResult").html(x);*/
+    function submit() {
+        var cno = $("#cno").val();
+        var pno = $("#pno").val();
+        var costtype = $("#costtype").val();
+        var costtime = $("#costtime").val();
+        var costmoney = $("#costmoney").val();
+        var name = $("#name").val();
+
+        var data={
+            "cno" : cno,
+            "pno":pno,
+            "costtype":costtype,
+            "costtime": costtime,
+            "costmoney":costmoney,
+            "name":name
+
+
+        }
+
+
+        $.ajax({
+            type : "post",
+            url : "Cost",
+            data : data,
+            cache : true,
+            async : true,
+            success: function (data ,textStatus, jqXHR){
+                if(data.code == 200){
+                    alert("插入成功了");
+                }else{
+                    alert(data.message);
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert(typeof(errorThrown));
+            }
+
+        });
+    }
+
+
+    function query() {
+
+        var cno = $("#cno_query").val();
+        var str = ["订单","客户","类型","时间","价格","名字"];
+        $.ajax({
+            type : "post",
+            url : "CostQuery",
+            data : {
+                "cno": cno
+            },
+            cache : true,
+            async : true,
+            success: function (data ,textStatus, jqXHR){
+                //data = $.parseJSON(data);
+                var j = 0;
+                var x = 1;
+                //for(var i=1; i <20; i++) {
+                for(var p in data){//遍历json对象的每个key/value对,p为key
+                    console.log(data[p]);
+                    if(j == 6) {
+                        j = 0;
+                        x++;
+                    }
+                    $("#queryResult tr:eq("+x+") td:eq("+j+")").html(data[p]);
+                    console.log(data[p]);
+                    j++;
+                }
+                //}
+
+
+
+
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert(typeof(errorThrown));
+            }
+
+        });
+    }
+
+    function del() {
+        var cno = $("#cno_del").val();
+
+        $.ajax({
+            type : "post",
+            url : "CostDelete",
+            data : {
+                "cno": cno
+            },
+            cache : true,
+            async : true,
+            success: function (data ,textStatus, jqXHR){
+                if(data.code == 200){
+                    alert("删除成功了");
+                }else{
+                    alert(data.message);
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert(typeof(errorThrown));
+            }
+
+        });
+    }
+
+    function update() {
+        var cno = $("#cno_up").val();
+        var pno = $("#pno_up").val();
+        var costtype = $("#costtype_up").val();
+        var costtime = $("#costtime_up").val();
+        var costmoney = $("#costmoney_up").val();
+        var name = $("#name_up").val();
+
+        var data={
+            "cno" : cno,
+            "pno":pno,
+            "costtype":costtype,
+            "costtime": costtime,
+            "costmoney":costmoney,
+            "name":name
+        }
+
+
+        $.ajax({
+            type : "post",
+            url : "CostUpdate",
+            data : data,
+            cache : true,
+            async : true,
+            success: function (data ,textStatus, jqXHR){
+                if(data.code == 200){
+                    alert("更新成功了");
+                }else{
+                    alert(data.message);
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert(typeof(errorThrown));
+            }
+
+        });
+    }
+
+
+
+</script>
+</html>

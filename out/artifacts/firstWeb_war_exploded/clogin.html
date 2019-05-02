@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>customer_login</title>
+	<style type="text/css">
+		body{
+			background-image:url(aha.jpeg);
+			background-size:cover;
+		}
+		a{
+			text-decoration:none;
+		}
+		
+		.center{
+			width:300px;
+			height:300px;
+			margin:auto;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;
+			opacity:0.9;
+			background-color:#ffffff;
+			padding:5% 3%;
+			border:2px solid;
+			border-color:#000000;
+			border-radius:25px;
+			text-align:center;
+			font-size:15px;
+		}
+		.logo{
+			font-size:10px;
+			font-color:#87CEEB;
+		}
+		/* .main{
+			height:40px;
+			padding:5px;
+		} */
+		.input{
+			border:2px;
+			width:220px;
+			height:30px;
+		}
+		input[value]{
+			width:130px;
+			height:30px;
+			background:	#48D1CC;
+			border:1px solid;
+			border-color:#000000;
+			border-radius:5px;
+		}
+		input:hover{
+			background-color:#87CEEB;
+			color:#ffffff;
+		}
+	</style>
+	
+	<!-- <script type="text/javascript">
+		function validate_required(field,alerttxt){
+			with(field){
+				if(value==null||value==""){
+					alert(alerttxt);
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}
+		
+		function validate_form(thisform){
+			with(thisform){
+				if(validate_required(cname,"name must be filled out")false){
+					cname.focus();
+					return false;
+				}
+					
+			}
+		}
+	</script> -->
+</head>
+<body >
+	<div class="center">
+		<div class="logo">
+			<div><img src="logo.png" width="250" height="142" /></div>
+		</div>
+		<form>
+			<br/>
+			账&nbsp;号&nbsp;：<input id="uname" type="text" name="u" size="30" required="required" class="input"/>
+			密&nbsp;码&nbsp;：<input id="pword" type="password" name="p" required="required" class="input"/>
+			<br/>
+			<div id="insert" style="color:red;padding:10px;font-size:12px"></div>
+			<br/>
+			<input type="button" id="btn" value="登录" onclick="check()"/>
+			<a href="cregister.html"><input type="button" name="register" value="注册" /></a>
+		</form>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	/*function check() {
+		var user = $("#user").val();
+		var pw = $("#pw").val();
+		var data={
+			"id":user,
+			"password":pw
+		}
+		$.ajax({
+			type : "post",
+			url : "CheckLogin",
+			data : data,
+			cache : true,
+			async : true,
+			success: function (msg){
+				if(result==1){
+					window.location.href = "{:U('index.html')}";
+				}else{
+					alert("登录失败");
+				}
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+				alert(typeof(errorThrown));
+			}
+
+		});
+	}*/
+	var xmlhttp;
+	function loadCheck(){
+		var uname=document.getElementById('uname').value;
+		var pword=document.getElementById('pword').value;
+		if (window.XMLHttpRequest) {xmlhttp=new XMLHttpRequest();}
+		else{xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+		xmlhttp.onreadystatechange=getResult;
+		xmlhttp.open("POST","index",true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("u="+uname+"&p="+pword);
+	}
+
+	function getResult(){
+		if (xmlhttp.readyState==4) {
+			if(xmlhttp.status==200){
+				var rec=xmlhttp.responseText;
+				document.getElementById("insert").innerHTML=rec;
+			}
+			else{
+				alert("连接失败");
+			}
+		}
+	}
+</script>
+
+</script>
